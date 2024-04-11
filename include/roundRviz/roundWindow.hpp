@@ -25,7 +25,7 @@ class RenderPanel;
 class VisualizationManager;
 }
 
-class roundWindow: public QMainWindow, public rviz_common::WindowManagerInterface
+class roundWindow: public QWidget, public rviz_common::WindowManagerInterface
 {
 Q_OBJECT
 public:

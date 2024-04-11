@@ -90,7 +90,7 @@ void roundWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 }
 
 QT_INIT_METAOBJECT const QMetaObject roundWindow::staticMetaObject = { {
-    QMetaObject::SuperData::link<QMainWindow::staticMetaObject>(),
+    QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
     qt_meta_stringdata_roundWindow.data,
     qt_meta_data_roundWindow,
     qt_static_metacall,
@@ -111,12 +111,12 @@ void *roundWindow::qt_metacast(const char *_clname)
         return static_cast<void*>(this);
     if (!strcmp(_clname, "rviz_common::WindowManagerInterface"))
         return static_cast< rviz_common::WindowManagerInterface*>(this);
-    return QMainWindow::qt_metacast(_clname);
+    return QWidget::qt_metacast(_clname);
 }
 
 int roundWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QMainWindow::qt_metacall(_c, _id, _a);
+    _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

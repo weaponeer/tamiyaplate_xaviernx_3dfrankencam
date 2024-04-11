@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "roundWindow/roundWindow.hpp"
+#include "roundRviz/roundWindow.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 #include "rviz_common/ros_integration/ros_client_abstraction.hpp"
 
