@@ -1,4 +1,4 @@
-#include "myviz/myviz.hpp"
+#include "roundWindow/roundWindow.hpp"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -10,7 +10,7 @@
 #include "rviz_common/visualization_manager.hpp"
 #include "rviz_rendering/render_window.hpp"
 
-MyViz::MyViz(
+roundWindow::roundWindow(
   QApplication * app,
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node,
   QWidget * parent)
@@ -58,33 +58,39 @@ MyViz::MyViz(
 }
 
 QWidget *
-MyViz::getParentWindow()
+roundWindow::getParentWindow()
 {
   return this;
 }
 
 rviz_common::PanelDockWidget *
-MyViz::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
+roundWindow::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
 {
   // TODO(mjeronimo)
   return nullptr;
 }
 
 void
-MyViz::setStatus(const QString & message)
+roundWindow::setStatus(const QString & message)
 {
-  // TODO(mjeronimo)
+  // TODO(markc)
 }
 
-void MyViz::DisplayGrid()
+void roundWindow::DisplayGrid()
 {
-  grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
-  assert(grid_ != NULL);
-  grid_->subProp("Line Style")->setValue("Billboards");
-  grid_->subProp("Color")->setValue(QColor(Qt::yellow));
+  //grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
+  //assert(grid_ != NULL);
+  //grid_->subProp("Line Style")->setValue("Billboards");
+  //grid_->subProp("Color")->setValue(QColor(Qt::yellow));
+
+  camera_ = manager_->createDisplay("rviz_default_plugins/Camera", "camera view", true);
+  assert(camera_ != NULL);
+  //camera_->subProp("Line Style")->setValue("Billboards");
+  //camera_->subProp("Color")->setValue(QColor(Qt::yellow));
+  camera_->subProp("Image")->setValue("/camera/camera/color/image_raw");
 }
 
-void MyViz::initializeRViz()
+void roundWindow::initializeRViz()
 {
   app_->processEvents();
   render_panel_ = new rviz_common::RenderPanel(central_widget);
@@ -98,21 +104,21 @@ void MyViz::initializeRViz()
   manager_->startUpdate();
 }
 
-void MyViz::setThickness(int thickness_percent)
+void roundWindow::setThickness(int thickness_percent)
 {
   if (grid_ != NULL) {
-    grid_->subProp("Line Style")->subProp("Line Width")->setValue(thickness_percent / 100.0f);
+    //grid_->subProp("Line Style")->subProp("Line Width")->setValue(thickness_percent / 100.0f);
   }
 }
 
-void MyViz::setCellSize(int cell_size_percent)
+void roundWindow::setCellSize(int cell_size_percent)
 {
   if (grid_ != NULL) {
-    grid_->subProp("Cell Size")->setValue(cell_size_percent / 10.0f);
+    //grid_->subProp("Cell Size")->setValue(cell_size_percent / 10.0f);
   }
 }
 
-void MyViz::closeEvent(QCloseEvent * event)
+void roundWindow::closeEvent(QCloseEvent * event)
 {
   QMainWindow::closeEvent(event);
   rclcpp::shutdown();

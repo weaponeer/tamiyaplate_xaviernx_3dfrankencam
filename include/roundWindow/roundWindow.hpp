@@ -20,11 +20,11 @@ class RenderPanel;
 class VisualizationManager;
 }
 
-class MyViz: public QMainWindow, public rviz_common::WindowManagerInterface
+class roundWindow: public QMainWindow, public rviz_common::WindowManagerInterface
 {
 Q_OBJECT
 public:
-  MyViz(QApplication *app, rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node, QWidget * parent = 0);
+  roundWindow(QApplication *app, rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node, QWidget * parent = 0);
 
   QWidget * getParentWindow() override;
   rviz_common::PanelDockWidget * addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating) override;
@@ -47,6 +47,7 @@ private:
 
   rviz_common::RenderPanel * render_panel_;
   rviz_common::Display * grid_;
+  rviz_common::Display * camera_;
   rviz_common::VisualizationManager * manager_;
 
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;
