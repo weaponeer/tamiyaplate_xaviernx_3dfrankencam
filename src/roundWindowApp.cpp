@@ -3,6 +3,8 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QSlider>
+#include <QBrush>
+
 
 #include "rclcpp/clock.hpp"
 #include "rviz_common/render_panel.hpp"
@@ -10,12 +12,47 @@
 #include "rviz_common/visualization_manager.hpp"
 #include "rviz_rendering/render_window.hpp"
 
+
+
 roundWindow::roundWindow(
   QApplication * app,
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node,
   QWidget * parent)
 : app_(app), rviz_ros_node_(rviz_ros_node), QMainWindow(parent)
 {
+  // prep from round display
+  this->setWindowFlags(Qt::FramelessWindowHint);
+  this->setAttribute(Qt::WA_TranslucentBackground);
+  desktop_ = QApplication::desktop();
+  //auto theMiddle = desktop_->availableGeometry().center();
+  //auto theRect = desktop_->availableGeometry();
+  auto screenNum = desktop_->primaryScreen();
+  auto theRect = desktop_->screenGeometry(screenNum);
+  auto theMiddle = theRect.center();
+  this->setGeometry(theRect);
+  maskImage_ = QImage(theRect.width(),theRect.height(),QImage::Format_ARGB32);
+  maskImage_.fill(Qt::transparent);
+
+  auto brush = QBrush(QColor(0,0,0,255)); 
+	auto painter = QPainter(&maskImage_); 
+	painter.setBrush(brush);
+  painter.setPen(Qt::NoPen);
+
+  auto workRect = theRect;
+  workRect.moveCenter(QPoint(this->width()/2,this->height()/2));
+
+  painter.drawEllipse(workRect);
+
+  painter.end();
+
+  maskPixmap_ = QPixmap();
+
+  auto pixResult = maskPixmap_.convertFromImage(maskImage_);
+
+  
+
+  
+
   // Construct the layout
   QLabel * thickness_label = new QLabel("Line Thickness");
   QSlider * thickness_slider = new QSlider(Qt::Horizontal);
@@ -57,6 +94,13 @@ roundWindow::roundWindow(
   cell_size_slider->setValue(10);
 }
 
+void roundWindow::paintEvent(QPaintEvent *) {
+
+  auto qp = QPainter(this);
+  qp.drawPixmap(QPoint(0,0),this->maskPixmap_);
+
+}
+
 QWidget *
 roundWindow::getParentWindow()
 {
@@ -78,16 +122,16 @@ roundWindow::setStatus(const QString & message)
 
 void roundWindow::DisplayGrid()
 {
-  //grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
-  //assert(grid_ != NULL);
-  //grid_->subProp("Line Style")->setValue("Billboards");
-  //grid_->subProp("Color")->setValue(QColor(Qt::yellow));
+  grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
+  assert(grid_ != NULL);
+  grid_->subProp("Line Style")->setValue("Billboards");
+  grid_->subProp("Color")->setValue(QColor(Qt::yellow));
 
-  camera_ = manager_->createDisplay("rviz_default_plugins/Camera", "camera view", true);
-  assert(camera_ != NULL);
+  //camera_ = manager_->createDisplay("rviz_default_plugins/Camera", "camera view", true);
+  //assert(camera_ != NULL);
   //camera_->subProp("Line Style")->setValue("Billboards");
   //camera_->subProp("Color")->setValue(QColor(Qt::yellow));
-  camera_->subProp("Image")->setValue("/camera/camera/color/image_raw");
+  //camera_->subProp("Image")->setValue("/camera/camera/color/image_raw");
 }
 
 void roundWindow::initializeRViz()
@@ -107,14 +151,14 @@ void roundWindow::initializeRViz()
 void roundWindow::setThickness(int thickness_percent)
 {
   if (grid_ != NULL) {
-    //grid_->subProp("Line Style")->subProp("Line Width")->setValue(thickness_percent / 100.0f);
+    grid_->subProp("Line Style")->subProp("Line Width")->setValue(thickness_percent / 100.0f);
   }
 }
 
 void roundWindow::setCellSize(int cell_size_percent)
 {
   if (grid_ != NULL) {
-    //grid_->subProp("Cell Size")->setValue(cell_size_percent / 10.0f);
+    grid_->subProp("Cell Size")->setValue(cell_size_percent / 10.0f);
   }
 }
 

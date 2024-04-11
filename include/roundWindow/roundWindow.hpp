@@ -6,6 +6,11 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QProcess>
+#include <QDesktopWidget>
+#include <QImage>
+#include <QPainter>
+#include <QPixmap>
+#include <QRect>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rviz_common/display.hpp"
@@ -32,6 +37,9 @@ public:
 
   void DisplayGrid();
 
+protected:
+  void paintEvent(QPaintEvent *e);
+
 private slots:
   void setThickness( int thickness_percent );
   void setCellSize( int cell_size_percent );
@@ -41,6 +49,10 @@ private:
   void initializeRViz();
 
   QApplication * app_;
+  QDesktopWidget * desktop_;
+  QImage maskImage_;
+  QPixmap maskPixmap_;
+
   QWidget * central_widget;
   QVBoxLayout * main_layout;
   QProcess * imuDockerProcess;

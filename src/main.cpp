@@ -6,6 +6,7 @@
 
 #include "roundWindow/roundWindow.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
+#include "rviz_common/ros_integration/ros_client_abstraction.hpp"
 
 int main(int argc, char ** argv)
 {
