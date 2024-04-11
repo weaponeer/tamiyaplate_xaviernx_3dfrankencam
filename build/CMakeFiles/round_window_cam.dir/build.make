@@ -69,14 +69,18 @@ include CMakeFiles/round_window_cam.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/round_window_cam.dir/flags.make
 
-include/roundWindow/moc_roundWindow.cpp: ../include/roundWindow/roundWindow.hpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating include/roundWindow/moc_roundWindow.cpp"
-	cd /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundWindow && /usr/lib/qt5/bin/moc @/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundWindow/moc_roundWindow.cpp_parameters
+include/roundRviz/moc_roundWindow.cpp: ../include/roundRviz/roundWindow.hpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating include/roundRviz/moc_roundWindow.cpp"
+	cd /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz && /usr/lib/qt5/bin/moc @/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_roundWindow.cpp_parameters
+
+include/roundRviz/moc_rvizWidget.cpp: ../include/roundRviz/rvizWidget.hpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating include/roundRviz/moc_rvizWidget.cpp"
+	cd /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz && /usr/lib/qt5/bin/moc @/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_rvizWidget.cpp_parameters
 
 CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o: CMakeFiles/round_window_cam.dir/flags.make
 CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o: ../src/roundWindowApp.cpp
 CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o: CMakeFiles/round_window_cam.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o"
 	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o -MF CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o.d -o CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o -c /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/roundWindowApp.cpp
 
 CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.i: cmake_force
@@ -87,10 +91,24 @@ CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.s"
 	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/roundWindowApp.cpp -o CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.s
 
+CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o: CMakeFiles/round_window_cam.dir/flags.make
+CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o: ../src/rvizWidget.cpp
+CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o: CMakeFiles/round_window_cam.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o -MF CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o.d -o CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o -c /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/rvizWidget.cpp
+
+CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.i"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/rvizWidget.cpp > CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.i
+
+CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.s"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/rvizWidget.cpp -o CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.s
+
 CMakeFiles/round_window_cam.dir/src/main.cpp.o: CMakeFiles/round_window_cam.dir/flags.make
 CMakeFiles/round_window_cam.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/round_window_cam.dir/src/main.cpp.o: CMakeFiles/round_window_cam.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/round_window_cam.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/round_window_cam.dir/src/main.cpp.o"
 	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/round_window_cam.dir/src/main.cpp.o -MF CMakeFiles/round_window_cam.dir/src/main.cpp.o.d -o CMakeFiles/round_window_cam.dir/src/main.cpp.o -c /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/main.cpp
 
 CMakeFiles/round_window_cam.dir/src/main.cpp.i: cmake_force
@@ -101,32 +119,50 @@ CMakeFiles/round_window_cam.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/round_window_cam.dir/src/main.cpp.s"
 	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/src/main.cpp -o CMakeFiles/round_window_cam.dir/src/main.cpp.s
 
-CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o: CMakeFiles/round_window_cam.dir/flags.make
-CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o: include/roundWindow/moc_roundWindow.cpp
-CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o: CMakeFiles/round_window_cam.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o -MF CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o.d -o CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o -c /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundWindow/moc_roundWindow.cpp
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o: CMakeFiles/round_window_cam.dir/flags.make
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o: include/roundRviz/moc_roundWindow.cpp
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o: CMakeFiles/round_window_cam.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o -MF CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o.d -o CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o -c /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_roundWindow.cpp
 
-CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.i"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundWindow/moc_roundWindow.cpp > CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.i
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.i"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_roundWindow.cpp > CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.i
 
-CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.s"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundWindow/moc_roundWindow.cpp -o CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.s
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.s"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_roundWindow.cpp -o CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.s
+
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o: CMakeFiles/round_window_cam.dir/flags.make
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o: include/roundRviz/moc_rvizWidget.cpp
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o: CMakeFiles/round_window_cam.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o -MF CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o.d -o CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o -c /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_rvizWidget.cpp
+
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.i"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_rvizWidget.cpp > CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.i
+
+CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.s"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/include/roundRviz/moc_rvizWidget.cpp -o CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.s
 
 # Object files for target round_window_cam
 round_window_cam_OBJECTS = \
 "CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o" \
+"CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o" \
 "CMakeFiles/round_window_cam.dir/src/main.cpp.o" \
-"CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o"
+"CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o" \
+"CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o"
 
 # External object files for target round_window_cam
 round_window_cam_EXTERNAL_OBJECTS =
 
 round_window_cam: CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.o
+round_window_cam: CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o
 round_window_cam: CMakeFiles/round_window_cam.dir/src/main.cpp.o
-round_window_cam: CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o
+round_window_cam: CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o
+round_window_cam: CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o
 round_window_cam: CMakeFiles/round_window_cam.dir/build.make
 round_window_cam: /home/q/ros2_iron/install/rclcpp_components/lib/libcomponent_manager.so
 round_window_cam: /home/q/ros2_iron/install/rviz_default_plugins/lib/librviz_default_plugins.so
@@ -326,7 +362,7 @@ round_window_cam: /home/q/ros2_iron/install/rosidl_runtime_c/lib/librosidl_runti
 round_window_cam: /home/q/ros2_iron/install/rcutils/lib/librcutils.so
 round_window_cam: /usr/lib/aarch64-linux-gnu/libpython3.10.so
 round_window_cam: CMakeFiles/round_window_cam.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable round_window_cam"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable round_window_cam"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/round_window_cam.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -337,7 +373,8 @@ CMakeFiles/round_window_cam.dir/clean:
 	$(CMAKE_COMMAND) -P CMakeFiles/round_window_cam.dir/cmake_clean.cmake
 .PHONY : CMakeFiles/round_window_cam.dir/clean
 
-CMakeFiles/round_window_cam.dir/depend: include/roundWindow/moc_roundWindow.cpp
+CMakeFiles/round_window_cam.dir/depend: include/roundRviz/moc_roundWindow.cpp
+CMakeFiles/round_window_cam.dir/depend: include/roundRviz/moc_rvizWidget.cpp
 	cd /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build /home/q/workspace/tamiyaplate_xaviernx_3dfrankencam/build/CMakeFiles/round_window_cam.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/round_window_cam.dir/depend
 

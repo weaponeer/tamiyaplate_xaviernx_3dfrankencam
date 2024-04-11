@@ -210,29 +210,53 @@ round_window_cam/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/build
 .PHONY : round_window_cam/fast
 
-include/roundWindow/moc_roundWindow.o: include/roundWindow/moc_roundWindow.cpp.o
-.PHONY : include/roundWindow/moc_roundWindow.o
+include/roundRviz/moc_roundWindow.o: include/roundRviz/moc_roundWindow.cpp.o
+.PHONY : include/roundRviz/moc_roundWindow.o
 
 # target to build an object file
-include/roundWindow/moc_roundWindow.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.o
-.PHONY : include/roundWindow/moc_roundWindow.cpp.o
+include/roundRviz/moc_roundWindow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.o
+.PHONY : include/roundRviz/moc_roundWindow.cpp.o
 
-include/roundWindow/moc_roundWindow.i: include/roundWindow/moc_roundWindow.cpp.i
-.PHONY : include/roundWindow/moc_roundWindow.i
+include/roundRviz/moc_roundWindow.i: include/roundRviz/moc_roundWindow.cpp.i
+.PHONY : include/roundRviz/moc_roundWindow.i
 
 # target to preprocess a source file
-include/roundWindow/moc_roundWindow.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.i
-.PHONY : include/roundWindow/moc_roundWindow.cpp.i
+include/roundRviz/moc_roundWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.i
+.PHONY : include/roundRviz/moc_roundWindow.cpp.i
 
-include/roundWindow/moc_roundWindow.s: include/roundWindow/moc_roundWindow.cpp.s
-.PHONY : include/roundWindow/moc_roundWindow.s
+include/roundRviz/moc_roundWindow.s: include/roundRviz/moc_roundWindow.cpp.s
+.PHONY : include/roundRviz/moc_roundWindow.s
 
 # target to generate assembly for a file
-include/roundWindow/moc_roundWindow.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundWindow/moc_roundWindow.cpp.s
-.PHONY : include/roundWindow/moc_roundWindow.cpp.s
+include/roundRviz/moc_roundWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundRviz/moc_roundWindow.cpp.s
+.PHONY : include/roundRviz/moc_roundWindow.cpp.s
+
+include/roundRviz/moc_rvizWidget.o: include/roundRviz/moc_rvizWidget.cpp.o
+.PHONY : include/roundRviz/moc_rvizWidget.o
+
+# target to build an object file
+include/roundRviz/moc_rvizWidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.o
+.PHONY : include/roundRviz/moc_rvizWidget.cpp.o
+
+include/roundRviz/moc_rvizWidget.i: include/roundRviz/moc_rvizWidget.cpp.i
+.PHONY : include/roundRviz/moc_rvizWidget.i
+
+# target to preprocess a source file
+include/roundRviz/moc_rvizWidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.i
+.PHONY : include/roundRviz/moc_rvizWidget.cpp.i
+
+include/roundRviz/moc_rvizWidget.s: include/roundRviz/moc_rvizWidget.cpp.s
+.PHONY : include/roundRviz/moc_rvizWidget.s
+
+# target to generate assembly for a file
+include/roundRviz/moc_rvizWidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/include/roundRviz/moc_rvizWidget.cpp.s
+.PHONY : include/roundRviz/moc_rvizWidget.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -282,6 +306,30 @@ src/roundWindowApp.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/src/roundWindowApp.cpp.s
 .PHONY : src/roundWindowApp.cpp.s
 
+src/rvizWidget.o: src/rvizWidget.cpp.o
+.PHONY : src/rvizWidget.o
+
+# target to build an object file
+src/rvizWidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.o
+.PHONY : src/rvizWidget.cpp.o
+
+src/rvizWidget.i: src/rvizWidget.cpp.i
+.PHONY : src/rvizWidget.i
+
+# target to preprocess a source file
+src/rvizWidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.i
+.PHONY : src/rvizWidget.cpp.i
+
+src/rvizWidget.s: src/rvizWidget.cpp.s
+.PHONY : src/rvizWidget.s
+
+# target to generate assembly for a file
+src/rvizWidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/round_window_cam.dir/build.make CMakeFiles/round_window_cam.dir/src/rvizWidget.cpp.s
+.PHONY : src/rvizWidget.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -298,15 +346,21 @@ help:
 	@echo "... round_window_cam_uninstall"
 	@echo "... uninstall"
 	@echo "... round_window_cam"
-	@echo "... include/roundWindow/moc_roundWindow.o"
-	@echo "... include/roundWindow/moc_roundWindow.i"
-	@echo "... include/roundWindow/moc_roundWindow.s"
+	@echo "... include/roundRviz/moc_roundWindow.o"
+	@echo "... include/roundRviz/moc_roundWindow.i"
+	@echo "... include/roundRviz/moc_roundWindow.s"
+	@echo "... include/roundRviz/moc_rvizWidget.o"
+	@echo "... include/roundRviz/moc_rvizWidget.i"
+	@echo "... include/roundRviz/moc_rvizWidget.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/roundWindowApp.o"
 	@echo "... src/roundWindowApp.i"
 	@echo "... src/roundWindowApp.s"
+	@echo "... src/rvizWidget.o"
+	@echo "... src/rvizWidget.i"
+	@echo "... src/rvizWidget.s"
 .PHONY : help
 
 

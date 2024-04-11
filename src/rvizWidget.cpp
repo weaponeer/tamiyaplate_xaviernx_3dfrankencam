@@ -1,4 +1,4 @@
-#include "roundWindow/roundWindow.hpp"
+#include "roundRviz/rvizWidget.hpp"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -14,7 +14,7 @@
 
 
 
-roundWindow::roundWindow(
+rvizWidget::rvizWidget(
   QApplication * app,
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node,
   QWidget * parent)
@@ -90,7 +90,7 @@ roundWindow::roundWindow(
   cell_size_slider->setValue(10);
 }
 
-void roundWindow::paintEvent(QPaintEvent *) {
+void rvizWidget::paintEvent(QPaintEvent *) {
 
   auto qp = QPainter(this);
   qp.drawPixmap(QPoint(0,0),this->maskPixmap_);
@@ -98,25 +98,25 @@ void roundWindow::paintEvent(QPaintEvent *) {
 }
 
 QWidget *
-roundWindow::getParentWindow()
+rvizWidget::getParentWindow()
 {
   return this;
 }
 
 rviz_common::PanelDockWidget *
-roundWindow::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
+rvizWidget::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
 {
   // TODO(mjeronimo)
   return nullptr;
 }
 
 void
-roundWindow::setStatus(const QString & message)
+rvizWidget::setStatus(const QString & message)
 {
   // TODO(markc)
 }
 
-void roundWindow::DisplayGrid()
+void rvizWidget::DisplayGrid()
 {
   grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
   assert(grid_ != NULL);
@@ -130,7 +130,7 @@ void roundWindow::DisplayGrid()
   //camera_->subProp("Image")->setValue("/camera/camera/color/image_raw");
 }
 
-void roundWindow::initializeRViz()
+void rvizWidget::initializeRViz()
 {
   app_->processEvents();
   render_panel_ = new rviz_common::RenderPanel(central_widget);
@@ -144,21 +144,21 @@ void roundWindow::initializeRViz()
   manager_->startUpdate();
 }
 
-void roundWindow::setThickness(int thickness_percent)
+void rvizWidget::setThickness(int thickness_percent)
 {
   if (grid_ != NULL) {
     grid_->subProp("Line Style")->subProp("Line Width")->setValue(thickness_percent / 100.0f);
   }
 }
 
-void roundWindow::setCellSize(int cell_size_percent)
+void rvizWidget::setCellSize(int cell_size_percent)
 {
   if (grid_ != NULL) {
     grid_->subProp("Cell Size")->setValue(cell_size_percent / 10.0f);
   }
 }
 
-void roundWindow::closeEvent(QCloseEvent * event)
+void rvizWidget::closeEvent(QCloseEvent * event)
 {
   QWidget::closeEvent(event);
   rclcpp::shutdown();

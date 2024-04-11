@@ -18,6 +18,7 @@
 #include "rviz_common/window_manager_interface.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 
+
 namespace rviz_common
 {
 class Display;
@@ -25,17 +26,13 @@ class RenderPanel;
 class VisualizationManager;
 }
 
-class roundWindow: public QWidget, public rviz_common::WindowManagerInterface
+class roundWindow: public QMainWindow, public rviz_common::WindowManagerInterface
 {
 Q_OBJECT
 public:
-  roundWindow(QApplication *app, rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node, QWidget * parent = 0);
+  roundWindow(QWidget *parent = 0);
 
   QWidget * getParentWindow() override;
-  rviz_common::PanelDockWidget * addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating) override;
-  void setStatus(const QString & message) override;
-
-  void DisplayGrid();
 
 protected:
   void paintEvent(QPaintEvent *e);

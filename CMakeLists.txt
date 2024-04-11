@@ -34,8 +34,8 @@ include_directories(
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(headers_to_moc
-  include/roundWindow/roundWindow.hpp
-  include/roundRviz/rvizVizWidget.hpp
+  include/roundRviz/roundWindow.hpp
+  include/roundRviz/rvizWidget.hpp
 )
 
 foreach(header "${headers_to_moc}")
@@ -44,7 +44,7 @@ endforeach()
 
 set(SRC_FILES
   src/roundWindowApp.cpp
-  src/rvizVizWidget.cpp
+  src/rvizWidget.cpp
   src/main.cpp
   ${moc_files}
 )
