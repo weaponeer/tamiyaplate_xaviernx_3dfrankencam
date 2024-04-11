@@ -20,34 +20,7 @@ rvizWidget::rvizWidget(
   QWidget * parent)
 : app_(app), rviz_ros_node_(rviz_ros_node), QWidget(parent)
 {
-  // prep from round display
-  this->setWindowFlags(Qt::FramelessWindowHint);
-  this->setAttribute(Qt::WA_TranslucentBackground);
-  desktop_ = QApplication::desktop();
-  //auto theMiddle = desktop_->availableGeometry().center();
-  //auto theRect = desktop_->availableGeometry();
-  auto screenNum = desktop_->primaryScreen();
-  auto theRect = desktop_->screenGeometry(screenNum);
-  auto theMiddle = theRect.center();
-  this->setGeometry(theRect);
-  maskImage_ = QImage(theRect.width(),theRect.height(),QImage::Format_ARGB32);
-  maskImage_.fill(Qt::transparent);
-
-  auto brush = QBrush(QColor(0,0,0,255)); 
-	auto painter = QPainter(&maskImage_); 
-	painter.setBrush(brush);
-  painter.setPen(Qt::NoPen);
-
-  auto workRect = theRect;
-  workRect.moveCenter(QPoint(this->width()/2,this->height()/2));
-
-  painter.drawEllipse(workRect);
-
-  painter.end();
-
-  maskPixmap_ = QPixmap();
-
-  auto pixResult = maskPixmap_.convertFromImage(maskImage_);
+  
 
   // Construct the layout
   QLabel * thickness_label = new QLabel("Line Thickness");
@@ -90,12 +63,6 @@ rvizWidget::rvizWidget(
   cell_size_slider->setValue(10);
 }
 
-void rvizWidget::paintEvent(QPaintEvent *) {
-
-  auto qp = QPainter(this);
-  qp.drawPixmap(QPoint(0,0),this->maskPixmap_);
-
-}
 
 QWidget *
 rvizWidget::getParentWindow()

@@ -38,7 +38,7 @@ public:
   void DisplayGrid();
 
 protected:
-  void paintEvent(QPaintEvent *e);
+  //void paintEvent(QPaintEvent *e);
 
 private slots:
   void setThickness( int thickness_percent );
@@ -49,9 +49,6 @@ private:
   void initializeRViz();
 
   QApplication * app_;
-  QDesktopWidget * desktop_;
-  QImage maskImage_;
-  QPixmap maskPixmap_;
 
   QWidget * central_widget;
   QVBoxLayout * main_layout;

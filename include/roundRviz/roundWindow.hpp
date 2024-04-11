@@ -17,6 +17,7 @@
 #include <rviz_common/display_context.hpp>
 #include "rviz_common/window_manager_interface.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
+#include "rviz_common/ros_integration/ros_client_abstraction.hpp"
 
 
 namespace rviz_common
@@ -26,20 +27,18 @@ class RenderPanel;
 class VisualizationManager;
 }
 
-class roundWindow: public QMainWindow, public rviz_common::WindowManagerInterface
+class roundWindow: public QMainWindow 
 {
 Q_OBJECT
 public:
   roundWindow(QWidget *parent = 0);
 
-  QWidget * getParentWindow() override;
+  //QWidget * getParentWindow() override;
 
 protected:
   void paintEvent(QPaintEvent *e);
 
 private slots:
-  void setThickness( int thickness_percent );
-  void setCellSize( int cell_size_percent );
   void closeEvent(QCloseEvent *event);
 
 private:

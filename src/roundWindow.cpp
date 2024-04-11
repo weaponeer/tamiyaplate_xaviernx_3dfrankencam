@@ -1,4 +1,5 @@
 #include "roundRviz/roundWindow.hpp"
+#include "roundRviz/rvizWidget.hpp"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -45,6 +46,16 @@ roundWindow::roundWindow(QWidget * parent)
 
   auto pixResult = maskPixmap_.convertFromImage(maskImage_);
 
+  auto ros_node_abs = std::make_shared<rviz_common::ros_integration::RosNodeAbstraction>("rviz_render_node");
+
+  //auto app = QApplication::instance();
+
+  //uto rvWidget = rvizWidget(app, ros_node_abs,dynamic_cast<QWidget&>(*this));
+
+  auto rvWidget = std::make_shared<rvizWidget>(qApp, ros_node_abs,this);
+
+  this->setCentralWidget(rvWidget.get());
+
 }
 
 void roundWindow::paintEvent(QPaintEvent *) {
@@ -52,12 +63,6 @@ void roundWindow::paintEvent(QPaintEvent *) {
   auto qp = QPainter(this);
   qp.drawPixmap(QPoint(0,0),this->maskPixmap_);
 
-}
-
-QWidget *
-roundWindow::getParentWindow()
-{
-  return this;
 }
 
 

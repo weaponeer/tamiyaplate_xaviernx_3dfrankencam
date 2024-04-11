@@ -43,7 +43,7 @@ foreach(header "${headers_to_moc}")
 endforeach()
 
 set(SRC_FILES
-  src/roundWindowApp.cpp
+  src/roundWindow.cpp
   src/rvizWidget.cpp
   src/main.cpp
   ${moc_files}
