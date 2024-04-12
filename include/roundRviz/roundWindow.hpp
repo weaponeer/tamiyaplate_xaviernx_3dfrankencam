@@ -11,6 +11,8 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QRect>
+#include <QLabel>
+#include <QPalette>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rviz_common/display.hpp"
@@ -31,27 +33,31 @@ class roundWindow: public QMainWindow
 {
 Q_OBJECT
 public:
-  roundWindow(QWidget *parent = 0);
+  roundWindow(QApplication *app = 0,QWidget *parent = 0);
 
   //QWidget * getParentWindow() override;
 
 protected:
   void paintEvent(QPaintEvent *e);
+  QSize sizeHint() const;
 
 private slots:
   void closeEvent(QCloseEvent *event);
 
+
 private:
-  void initializeRViz();
 
   QApplication * app_;
   QDesktopWidget * desktop_;
   QImage maskImage_;
   QPixmap maskPixmap_;
+  QRect theRect_;
 
   QWidget * central_widget;
   QVBoxLayout * main_layout;
   QProcess * imuDockerProcess;
+
+  QLabel label1 {this};
 
   rviz_common::RenderPanel * render_panel_;
   rviz_common::Display * grid_;

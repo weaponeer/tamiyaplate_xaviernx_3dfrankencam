@@ -12,7 +12,7 @@ int main(int argc, char ** argv)
   QApplication app(argc, argv);
   rclcpp::init(argc, argv);
   
-  auto round_window = std::make_shared<roundWindow>();
+  auto round_window = std::make_shared<roundWindow>(&app);
   round_window->show();
 
   while (rclcpp::ok()) {
