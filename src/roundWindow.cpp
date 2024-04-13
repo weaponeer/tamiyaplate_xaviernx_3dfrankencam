@@ -6,11 +6,13 @@
 #include <QSlider>
 #include <QBrush>
 #include <QPushButton>
+#include <QBoxLayout>
 
 
 #include "rclcpp/clock.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
+#include "rviz_common/ros_integration/ros_client_abstraction.hpp"
 #include "rviz_common/visualization_manager.hpp"
 #include "rviz_rendering/render_window.hpp"
 
@@ -48,7 +50,7 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   
   auto pixResult = maskPixmap_.convertFromImage(maskImage_);
 
-  auto ros_node_abs = std::make_shared<rviz_common::ros_integration::RosNodeAbstraction>("rviz_render_node");
+  auto ros_node_abs = std::make_shared<rviz_common::ros_integration::RosNodeAbstraction>("camviz_ros_node");
 
   //auto app = QApplication::instance();
 
@@ -68,30 +70,20 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   label1.setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
   label1.setWordWrap(true);
 
-  //setCentralWidget(rvWidget.get());
+  auto vBoxLayout = new QVBoxLayout;
+
+  //rvWidget->setFixedSize(QSize(500,500));
+  rvWidget->setGeometry(workRect);
+
+  vBoxLayout->addWidget(rvWidget);
+  vBoxLayout->setAlignment(Qt::AlignTop);
+
+  auto insetRect = workRect.marginsRemoved(QMargins(100,100,100,100));
+
+  vBoxLayout->setGeometry(insetRect);
+
+  this->setLayout(vBoxLayout);
   
-  setWindowTitle("Hello world (label)");
-  //resize(300, 300);
-
-  /*
-  auto fooButton = new QPushButton("SPAM");
-
-  // Add visualization
-  auto main_layout = new QVBoxLayout;
-  main_layout->setSpacing(0);
-  main_layout->setMargin(0);
-
-  fooButton->setFixedSize(QSize(250,250));
-
-  //setCentralWidget(central_widget);
-  main_layout->addWidget(fooButton);
- 
-  fooButton->setStyleSheet("background-color:green;");
-
-  main_layout->addWidget(fooButton);
-  this->setLayout(main_layout);
-
-  */
 
 
 }
