@@ -51,6 +51,7 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   auto pixResult = maskPixmap_.convertFromImage(maskImage_);
 
   auto ros_node_abs = std::make_shared<rviz_common::ros_integration::RosNodeAbstraction>("camviz_ros_node");
+  ros_client_abstraction_ = std::make_unique<rviz_common::ros_integration::RosClientAbstraction>();
 
   //auto app = QApplication::instance();
 
@@ -60,7 +61,7 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 
   auto rvWidget = new rvizWidget(qApp,ros_node_abs,this);
 
-  rvWidget->setFixedSize(QSize(600,600));
+  // rvWidget->setFixedSize(QSize(600,600));
 
   label1.setText("Hello, World!");
   QPalette palette;
@@ -70,9 +71,9 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   label1.setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
   label1.setWordWrap(true);
 
-  auto vBoxLayout = new QVBoxLayout;
+  auto vBoxLayout = new QVBoxLayout(this);
 
-  //rvWidget->setFixedSize(QSize(500,500));
+  ////rvWidget->setFixedSize(QSize(500,500));
   rvWidget->setGeometry(workRect);
 
   vBoxLayout->addWidget(rvWidget);
@@ -82,33 +83,63 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 
   vBoxLayout->setGeometry(insetRect);
 
-  this->setLayout(vBoxLayout);
-
-  this->setup
   
-
+  //central_widget_ = new QWidget();
+  //this->setCentralWidget(central_widget_);
+  vBoxLayout->addWidget(rvWidget);
+  this->setLayout(vBoxLayout);
 
 }
 
-void roundWindow::setupManagers() {
 
- // Initialize the classes we need from rviz
+QWidget *
+roundWindow::getParentWindow()
+{
+  return this;
+}
 
 
-  app_->processEvents();
-  render_panel_ = new rviz_common::RenderPanel(this);
+rviz_common::PanelDockWidget * roundWindow::addPane(
+  const QString & name, QWidget * panel,
+  Qt::DockWidgetArea area, bool floating)
+{
+  rviz_common::PanelDockWidget * dock;
+  dock = new rviz_common::PanelDockWidget(name);
+  dock->setContentWidget(panel);
+  dock->setFloating(floating);
+  dock->setObjectName(name);   // QMainWindow::saveState() needs objectName to be set.
+  this->addDockWidget(Qt::BottomDockWidgetArea,dock);
+
   
-  app_->processEvents();
-  render_panel_->getRenderWindow()->initialize();
-  auto clock = rviz_ros_node_.lock()->get_raw_node()->get_clock();
-  manager_ = new rviz_common::VisualizationManager(render_panel_, rviz_ros_node_, this, clock);
+
+  // we want to know when that panel becomes visible
+  connect(dock, SIGNAL(visibilityChanged(bool)), this, SLOT(onDockPanelVisibilityChange(bool)));
+  connect(this, SIGNAL(fullScreenChange(bool)), dock, SLOT(overrideVisibility(bool)));
+
+  //QAction * toggle_action = dock->toggleViewAction();
+  //view_menu_->addAction(toggle_action);
+
+  //connect(toggle_action, SIGNAL(triggered(bool)), this, SLOT(setDisplayConfigModified()));
+  connect(dock, SIGNAL(closed()), this, SLOT(setDisplayConfigModified()));
+
+  //dock->installEventFilter(geom_change_detector_);
+
+  // repair/update visibility status
+  //hideLeftDock(area == Qt::LeftDockWidgetArea ? false : hide_left_dock_button_->isChecked());
+  //hideRightDock(area == Qt::RightDockWidgetArea ? false : hide_right_dock_button_->isChecked());
+
   
 
-  render_panel_->initialize(manager_);
-  app_->processEvents();
-  manager_->initialize();
-  manager_->startUpdate();
+  return dock;
+}
 
+
+
+
+void
+roundWindow::setStatus(const QString & message)
+{
+  // TODO(markc)
 }
 
 void roundWindow::paintEvent(QPaintEvent *) {

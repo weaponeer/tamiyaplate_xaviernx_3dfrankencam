@@ -20,6 +20,7 @@
 #include "rviz_common/window_manager_interface.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 #include "rviz_common/ros_integration/ros_client_abstraction.hpp"
+#include "rviz_common/panel_dock_widget.hpp"
 
 
 namespace rviz_common
@@ -34,7 +35,9 @@ class roundWindow: public QMainWindow,public rviz_common::WindowManagerInterface
 Q_OBJECT
 public:
   roundWindow(QApplication *app = 0,QWidget *parent = 0);
-  void setupManagers();
+  void setStatus(const QString & message) override;
+  QWidget * getParentWindow() override;
+  rviz_common::PanelDockWidget * addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating) override;
 
   //QWidget * getParentWindow() override;
 
@@ -54,9 +57,12 @@ private:
   QPixmap maskPixmap_;
   QRect theRect_;
 
-  QWidget * central_widget;
-  QVBoxLayout * main_layout;
-  QProcess * imuDockerProcess;
+  QWidget * central_widget_;
+  QVBoxLayout * main_layout_;
+  QProcess * imuDockerProcess_;
+  QVBoxLayout * mainBoxLayout_;
+  QDockWidget * mainDockWiget_;
+  QGridLayout * mainDockLayout_;
 
   QLabel label1 {this};
 
@@ -66,4 +72,8 @@ private:
   rviz_common::VisualizationManager * manager_;
 
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;
+
+  std::unique_ptr<rviz_common::ros_integration::RosClientAbstractionIface> ros_client_abstraction_;
+
+  
 };

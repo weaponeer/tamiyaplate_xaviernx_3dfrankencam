@@ -37,9 +37,10 @@ public:
   QWidget * getParentWindow() override;
   rviz_common::PanelDockWidget * addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating) override;
   void setStatus(const QString & message) override;
-  void setupManagers();
+  void setupManagers(QWidget *parent = 0);
+  void setupDisplays();
 
-  void DisplayGrid();
+  //void DisplayGrid();
 
 protected:
   //void paintEvent(QPaintEvent *e);
@@ -54,8 +55,8 @@ private:
 
   QApplication * app_;
 
-  QWidget * central_widget;
-  QVBoxLayout * mainBoxLayout_;
+  QWidget * central_widget_;
+  QHBoxLayout * mainBoxLayout_;
   QDockWidget * mainDockWiget_;
   QGridLayout * mainDockLayout_;
   QProcess * imuDockerProcess;
@@ -63,6 +64,7 @@ private:
   rviz_common::RenderPanel * render_panel_;
   rviz_common::Display * grid_;
   rviz_common::Display * camera_;
+  rviz_common::Display * camera2_;
   rviz_common::VisualizationManager * manager_;
 
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;

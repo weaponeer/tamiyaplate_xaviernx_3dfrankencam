@@ -25,70 +25,40 @@ rvizWidget::rvizWidget(
   QWidget * parent)
 : app_(app), rviz_ros_node_(rviz_ros_node), QWidget(parent)
 {
-  
-/*
-  // Construct the layout
-  QLabel * thickness_label = new QLabel("Line Thickness");
-  QSlider * thickness_slider = new QSlider(Qt::Horizontal);
-  thickness_slider->setMinimum(1);
-  thickness_slider->setMaximum(100);
-  QLabel * cell_size_label = new QLabel("Cell Size");
-  QSlider * cell_size_slider = new QSlider(Qt::Horizontal);
-  cell_size_slider->setMinimum(1);
-  cell_size_slider->setMaximum(100);
-  QGridLayout * controls_layout = new QGridLayout();
-  controls_layout->addWidget(thickness_label, 0, 0);
-  controls_layout->addWidget(thickness_slider, 0, 1);
-  controls_layout->addWidget(cell_size_label, 1, 0);
-  controls_layout->addWidget(cell_size_slider, 1, 1);
-  */
-
+ 
   // Add visualization
   mainDockLayout_ = new QGridLayout();
-  mainBoxLayout_ = new QVBoxLayout();
-  central_widget = new QWidget();
+  mainBoxLayout_ = new QHBoxLayout();
+  central_widget_ = new QWidget();
 
-  #ifdef LOACH
-  // main_layout->addLayout(controls_layout);
+  setupManagers(this);
+
+  //central_widget->setLayout(mainBoxLayout_);
   
+  
+  
+  mainDockWiget_ =  new QDockWidget(QLatin1String("Panels"));
+  mainDockWiget_->setFixedSize(QSize(500,500));
+  mainBoxLayout_->addWidget(mainDockWiget_);
+  mainBoxLayout_->addWidget(render_panel_);
+  auto tempWidget = new QWidget();
+  tempWidget->setLayout(mainDockLayout_);
+  mainDockWiget_->setWidget(tempWidget);
 
-  auto label1 = new QLabel(this);
+  this->setLayout(mainBoxLayout_);
+  
+  setupDisplays();
 
-  label1->setText("---Hello, World!");
-  QPalette palette;
-  palette.setColor(QPalette::WindowText, Qt::GlobalColor::darkGreen);
-  label1->setPalette(palette);
-  label1->setFont({label1->font().family(), 34, QFont::Bold, true});
-  label1->setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
-  label1->setWordWrap(true);
-  //label1->setFixedSize(QSize(200,200));
-
-  auto label2 = new QLabel(label1);
-  auto label3 = new QLabel(label1);
-
-  label2->setText("Hello, World! 2");
-  label3->setText("Hello, World! 3");
-
-  label2->setPalette(palette);
-  label2->setFont({label1->font().family(), 34, QFont::Bold, true});
-  label2->setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
-  label2->setWordWrap(true);
-  //label2->setFixedSize(QSize(200,200));
-
-  label3->setPalette(palette);
-  label3->setFont({label1->font().family(), 34, QFont::Bold, true});
-  label3->setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
-  label3->setWordWrap(true);
-  //label3->setFixedSize(QSize(200,200));
+}
 
 
+void rvizWidget::setupManagers(QWidget *parent) {
 
-  #endif 
-  // Initialize the classes we need from rviz
+ // Initialize the classes we need from rviz
 
 
   app_->processEvents();
-  render_panel_ = new rviz_common::RenderPanel(this);
+  render_panel_ = new rviz_common::RenderPanel(parent);
   
   app_->processEvents();
   render_panel_->getRenderWindow()->initialize();
@@ -101,39 +71,40 @@ rvizWidget::rvizWidget(
   manager_->initialize();
   manager_->startUpdate();
 
-  //central_widget->setLayout(mainBoxLayout_);
+}
+
+void rvizWidget::setupDisplays() {
+
+  grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
+  assert(grid_ != NULL);
+  grid_->subProp("Line Style")->setValue("Billboards");
+  grid_->subProp("Color")->setValue(QColor(Qt::yellow));
+
+  camera_ = manager_->createDisplay("rviz_default_plugins/Image", "image view", true);
+  assert(camera_ != NULL);
+  //camera_->subProp("Line Style")->setValue("Billboards");
+  //camera_->subProp("Color")->setValue(QColor(Qt::yellow));
+  camera_->subProp("Topic")->setValue("/camera/camera/depth/image_rect_raw");
+  camera_->subProp("Normalize Range")->setValue(true);
+
+  camera_->subProp("Min Value")->setValue(0);
+  camera_->subProp("Max Value")->setValue(1);
+  camera_->subProp("Median window")->setValue(5);
+
+  // 2nd view -- // /camera/camera/color/image_raw
+  camera2_ = manager_->createDisplay("rviz_default_plugins/Image", "image view", true);
+  assert(camera_ != NULL);
+  //camera_->subProp("Line Style")->setValue("Billboards");
+  //camera_->subProp("Color")->setValue(QColor(Qt::yellow));
+  camera2_->subProp("Topic")->setValue("/camera/camera/color/image_raw");
+  camera2_->subProp("Normalize Range")->setValue(true);
+
+  camera2_->subProp("Min Value")->setValue(0);
+  camera2_->subProp("Max Value")->setValue(1);
+  camera2_->subProp("Median window")->setValue(5);
+
   
-#ifdef LOACH
-  
-  fooOut->addWidget(label1,2,2,1,1);
-  fooOut->addWidget(label2,1,1,1,1);
-  fooOut->addWidget(label3,3,3,1,1);
-  //fooOut->addWidget(render_panel_,0,0,1,4);
-#endif
 
-  mainBoxLayout_->addWidget(render_panel_);
-  mainDockWiget_ =  new QDockWidget(QLatin1String("Panels"));
-  mainBoxLayout_->addWidget(mainDockWiget_);
-  auto tempWidget = new QWidget();
-  tempWidget->setLayout(mainDockLayout_);
-  mainDockWiget_->setWidget(tempWidget);
-
-  //this->setLayout(fooOut);
-  this->setLayout(mainBoxLayout_);
-
-
-  //main_layout->addWidget(render_panel_);
-
-  // Signals
-  //connect(thickness_slider, SIGNAL(valueChanged(int)), this, SLOT(setThickness(int)));
-  //connect(cell_size_slider, SIGNAL(valueChanged(int)), this, SLOT(setCellSize(int)));
-
-  // Display the rviz grid plugin
-  DisplayGrid();
-
-  // Intialize the sliders
-  //thickness_slider->setValue(25);
-  //cell_size_slider->setValue(10);
 }
 
 
@@ -144,26 +115,13 @@ rvizWidget::getParentWindow()
 }
 
 
-/*
-rviz_common::PanelDockWidget *
-rvizWidget::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
-{
-  // TODO(mjeronimo)
-  auto catfoo = area;
-
-
-
-
-  return nullptr;
-}
-*/
-
 rviz_common::PanelDockWidget * rvizWidget::addPane(
   const QString & name, QWidget * panel,
   Qt::DockWidgetArea area, bool floating)
 {
   rviz_common::PanelDockWidget * dock;
   dock = new rviz_common::PanelDockWidget(name);
+  //dock->setFixedSize(QSize(200,200));
   dock->setContentWidget(panel);
   dock->setFloating(floating);
   dock->setObjectName(name);   // QMainWindow::saveState() needs objectName to be set.
@@ -200,32 +158,6 @@ rvizWidget::setStatus(const QString & message)
   // TODO(markc)
 }
 
-void rvizWidget::DisplayGrid()
-{
-
-  grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
-  assert(grid_ != NULL);
-  grid_->subProp("Line Style")->setValue("Billboards");
-  grid_->subProp("Color")->setValue(QColor(Qt::yellow));
-
-  camera_ = manager_->createDisplay("rviz_default_plugins/Image", "image view", true);
-
-  auto foo = camera_->getModel();
-
-  assert(camera_ != NULL);
-  //camera_->subProp("Line Style")->setValue("Billboards");
-  //camera_->subProp("Color")->setValue(QColor(Qt::yellow));
-  camera_->subProp("Topic")->subProp("Value")->setValue("/camera/camera/depth/image_rect_raw");
-  camera_->subProp("Normalize Range")->setValue(true);
-
-  camera_->subProp("Min Value")->setValue(0);
-  camera_->subProp("Max Value")->setValue(1);
-  camera_->subProp("Median window")->setValue(5);
-
-  auto larb = 10.0;
-
-
-}
 
 void rvizWidget::initializeRViz()
 {
