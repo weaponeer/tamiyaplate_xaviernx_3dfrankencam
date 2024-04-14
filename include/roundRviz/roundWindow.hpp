@@ -29,11 +29,12 @@ class RenderPanel;
 class VisualizationManager;
 }
 
-class roundWindow: public QMainWindow 
+class roundWindow: public QMainWindow,public rviz_common::WindowManagerInterface 
 {
 Q_OBJECT
 public:
   roundWindow(QApplication *app = 0,QWidget *parent = 0);
+  void setupManagers();
 
   //QWidget * getParentWindow() override;
 

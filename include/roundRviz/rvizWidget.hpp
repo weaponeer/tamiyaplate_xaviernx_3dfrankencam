@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QRect>
+#include <QDockWidget>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rviz_common/display.hpp"
@@ -36,6 +37,7 @@ public:
   QWidget * getParentWindow() override;
   rviz_common::PanelDockWidget * addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating) override;
   void setStatus(const QString & message) override;
+  void setupManagers();
 
   void DisplayGrid();
 
@@ -53,7 +55,9 @@ private:
   QApplication * app_;
 
   QWidget * central_widget;
-  QVBoxLayout * main_layout;
+  QVBoxLayout * mainBoxLayout_;
+  QDockWidget * mainDockWiget_;
+  QGridLayout * mainDockLayout_;
   QProcess * imuDockerProcess;
 
   rviz_common::RenderPanel * render_panel_;

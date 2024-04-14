@@ -10,8 +10,12 @@
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 #include "rviz_common/visualization_manager.hpp"
+#include "rviz_common/display_context.hpp"
+
 #include "rviz_rendering/render_window.hpp"
 #include "rviz_common/properties/property_tree_model.hpp"
+
+#include "rviz_common/panel_dock_widget.hpp"
 
 
 
@@ -40,10 +44,13 @@ rvizWidget::rvizWidget(
   */
 
   // Add visualization
-  auto fooOut = new QGridLayout();
-  auto famOut = new QVBoxLayout();
-  // main_layout->addLayout(controls_layout);
+  mainDockLayout_ = new QGridLayout();
+  mainBoxLayout_ = new QVBoxLayout();
   central_widget = new QWidget();
+
+  #ifdef LOACH
+  // main_layout->addLayout(controls_layout);
+  
 
   auto label1 = new QLabel(this);
 
@@ -76,29 +83,43 @@ rvizWidget::rvizWidget(
 
 
 
+  #endif 
   // Initialize the classes we need from rviz
-  
+
+
   app_->processEvents();
-  render_panel_ = new rviz_common::RenderPanel(central_widget);
+  render_panel_ = new rviz_common::RenderPanel(this);
+  
   app_->processEvents();
   render_panel_->getRenderWindow()->initialize();
   auto clock = rviz_ros_node_.lock()->get_raw_node()->get_clock();
   manager_ = new rviz_common::VisualizationManager(render_panel_, rviz_ros_node_, this, clock);
+  
+
   render_panel_->initialize(manager_);
   app_->processEvents();
   manager_->initialize();
   manager_->startUpdate();
-  
 
-  //central_widget->setLayout(main_layout);
+  //central_widget->setLayout(mainBoxLayout_);
+  
+#ifdef LOACH
+  
   fooOut->addWidget(label1,2,2,1,1);
   fooOut->addWidget(label2,1,1,1,1);
   fooOut->addWidget(label3,3,3,1,1);
   //fooOut->addWidget(render_panel_,0,0,1,4);
+#endif
 
-  famOut->addWidget(render_panel_);
+  mainBoxLayout_->addWidget(render_panel_);
+  mainDockWiget_ =  new QDockWidget(QLatin1String("Panels"));
+  mainBoxLayout_->addWidget(mainDockWiget_);
+  auto tempWidget = new QWidget();
+  tempWidget->setLayout(mainDockLayout_);
+  mainDockWiget_->setWidget(tempWidget);
+
   //this->setLayout(fooOut);
-  this->setLayout(famOut);
+  this->setLayout(mainBoxLayout_);
 
 
   //main_layout->addWidget(render_panel_);
@@ -122,12 +143,56 @@ rvizWidget::getParentWindow()
   return this;
 }
 
+
+/*
 rviz_common::PanelDockWidget *
 rvizWidget::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
 {
   // TODO(mjeronimo)
+  auto catfoo = area;
+
+
+
+
   return nullptr;
 }
+*/
+
+rviz_common::PanelDockWidget * rvizWidget::addPane(
+  const QString & name, QWidget * panel,
+  Qt::DockWidgetArea area, bool floating)
+{
+  rviz_common::PanelDockWidget * dock;
+  dock = new rviz_common::PanelDockWidget(name);
+  dock->setContentWidget(panel);
+  dock->setFloating(floating);
+  dock->setObjectName(name);   // QMainWindow::saveState() needs objectName to be set.
+  mainDockLayout_->addWidget(dock);
+
+  /*
+
+  // we want to know when that panel becomes visible
+  connect(dock, SIGNAL(visibilityChanged(bool)), this, SLOT(onDockPanelVisibilityChange(bool)));
+  connect(this, SIGNAL(fullScreenChange(bool)), dock, SLOT(overrideVisibility(bool)));
+
+  QAction * toggle_action = dock->toggleViewAction();
+  view_menu_->addAction(toggle_action);
+
+  connect(toggle_action, SIGNAL(triggered(bool)), this, SLOT(setDisplayConfigModified()));
+  connect(dock, SIGNAL(closed()), this, SLOT(setDisplayConfigModified()));
+
+  dock->installEventFilter(geom_change_detector_);
+
+  // repair/update visibility status
+  hideLeftDock(area == Qt::LeftDockWidgetArea ? false : hide_left_dock_button_->isChecked());
+  hideRightDock(area == Qt::RightDockWidgetArea ? false : hide_right_dock_button_->isChecked());
+
+  */
+
+  return dock;
+}
+
+
 
 void
 rvizWidget::setStatus(const QString & message)
@@ -137,19 +202,28 @@ rvizWidget::setStatus(const QString & message)
 
 void rvizWidget::DisplayGrid()
 {
-  //grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
-  //assert(grid_ != NULL);
-  //grid_->subProp("Line Style")->setValue("Billboards");
-  //grid_->subProp("Color")->setValue(QColor(Qt::yellow));
 
-  camera_ = manager_->createDisplay("rviz/Image", "image view", true);
+  grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
+  assert(grid_ != NULL);
+  grid_->subProp("Line Style")->setValue("Billboards");
+  grid_->subProp("Color")->setValue(QColor(Qt::yellow));
+
+  camera_ = manager_->createDisplay("rviz_default_plugins/Image", "image view", true);
 
   auto foo = camera_->getModel();
 
   assert(camera_ != NULL);
   //camera_->subProp("Line Style")->setValue("Billboards");
   //camera_->subProp("Color")->setValue(QColor(Qt::yellow));
-  camera_->subProp("Topic")->setValue("/camera/camera/depth/image_rect_raw");
+  camera_->subProp("Topic")->subProp("Value")->setValue("/camera/camera/depth/image_rect_raw");
+  camera_->subProp("Normalize Range")->setValue(true);
+
+  camera_->subProp("Min Value")->setValue(0);
+  camera_->subProp("Max Value")->setValue(1);
+  camera_->subProp("Median window")->setValue(5);
+
+  auto larb = 10.0;
+
 
 }
 

@@ -83,8 +83,31 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   vBoxLayout->setGeometry(insetRect);
 
   this->setLayout(vBoxLayout);
+
+  this->setup
   
 
+
+}
+
+void roundWindow::setupManagers() {
+
+ // Initialize the classes we need from rviz
+
+
+  app_->processEvents();
+  render_panel_ = new rviz_common::RenderPanel(this);
+  
+  app_->processEvents();
+  render_panel_->getRenderWindow()->initialize();
+  auto clock = rviz_ros_node_.lock()->get_raw_node()->get_clock();
+  manager_ = new rviz_common::VisualizationManager(render_panel_, rviz_ros_node_, this, clock);
+  
+
+  render_panel_->initialize(manager_);
+  app_->processEvents();
+  manager_->initialize();
+  manager_->startUpdate();
 
 }
 
