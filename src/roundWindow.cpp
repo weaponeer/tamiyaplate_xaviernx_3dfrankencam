@@ -7,6 +7,8 @@
 #include <QBrush>
 #include <QPushButton>
 #include <QBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
 
 
 #include "rclcpp/clock.hpp"
@@ -59,10 +61,8 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 
   //auto rvWidget = std::make_shared<rvizWidget>(qApp, ros_node_abs,this);
 
-  auto rvWidget = new rvizWidget(qApp,ros_node_abs,this);
-
-  // rvWidget->setFixedSize(QSize(600,600));
-
+  
+/*
   label1.setText("Hello, World!");
   QPalette palette;
   palette.setColor(QPalette::WindowText, Qt::GlobalColor::darkGreen);
@@ -70,24 +70,61 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   label1.setFont({label1.font().family(), 34, QFont::Bold, true});
   label1.setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
   label1.setWordWrap(true);
+*/
 
-  auto vBoxLayout = new QVBoxLayout(this);
+  central_widget_ = new QWidget();
+  //central_widget_->setFixedSize(QSize(600,600));
+  
+
+  auto rvWidget = new rvizWidget(qApp,ros_node_abs,central_widget_);
+  auto vBoxLayout = new QVBoxLayout();
+
 
   ////rvWidget->setFixedSize(QSize(500,500));
-  rvWidget->setGeometry(workRect);
+  //rvWidget->setGeometry(workRect);
 
-  vBoxLayout->addWidget(rvWidget);
-  vBoxLayout->setAlignment(Qt::AlignTop);
+  vBoxLayout->setAlignment(Qt::AlignCenter);
 
-  auto insetRect = workRect.marginsRemoved(QMargins(100,100,100,100));
+  auto insetRect = workRect.marginsRemoved(QMargins(300,300,300,300));
 
-  vBoxLayout->setGeometry(insetRect);
+  //vBoxLayout->setGeometry(insetRect);
 
   
-  //central_widget_ = new QWidget();
-  //this->setCentralWidget(central_widget_);
+  QHBoxLayout * buttonLayout = new QHBoxLayout();
+  startButton_ = new QPushButton("Start");
+  stopButton_ = new QPushButton("Stop");
+  shutdownButton_ = new QPushButton("Shutdown");
+
+  startButton_->setStyleSheet("background-color:green;");
+	stopButton_->setStyleSheet("background-color:grey;");
+	shutdownButton_->setStyleSheet("background-color:pink;");
+
+  insetRect = workRect.marginsRemoved(QMargins(300,300,300,400));
+  
+  central_widget_->setGeometry(insetRect);
+
+  startButton_->setFixedSize(QSize(150,100));
+  stopButton_->setFixedSize(QSize(150,100));
+  shutdownButton_->setFixedSize(QSize(150,100));
+
+  buttonLayout->addWidget(startButton_);
+  buttonLayout->addWidget(stopButton_);
+  buttonLayout->addWidget(shutdownButton_);
+  //vBoxLayout->addWidget();
+  buttonLayout->setAlignment(Qt::AlignHCenter);
+  //buttonLayout->setGeometry(insetRect);
+
   vBoxLayout->addWidget(rvWidget);
-  this->setLayout(vBoxLayout);
+
+  vBoxLayout->addLayout(buttonLayout);
+
+  central_widget_->setLayout(vBoxLayout);
+
+  //vBoxLayout->addLayout(buttonLayout);
+  
+  //vBoxLayout->addWidget(central_widget_);
+  this->setCentralWidget(central_widget_);
+  //this->setCentralWidget(startButton);
 
 }
 
@@ -95,7 +132,7 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 QWidget *
 roundWindow::getParentWindow()
 {
-  return this;
+  return central_widget_;
 }
 
 

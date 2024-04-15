@@ -23,6 +23,8 @@
 #include "rviz_common/panel_dock_widget.hpp"
 
 
+class QPushButton;
+
 namespace rviz_common
 {
 class Display;
@@ -57,14 +59,17 @@ private:
   QPixmap maskPixmap_;
   QRect theRect_;
 
+  QPushButton * startButton_;
+  QPushButton * stopButton_;
+  QPushButton * shutdownButton_; 
+
+
   QWidget * central_widget_;
   QVBoxLayout * main_layout_;
   QProcess * imuDockerProcess_;
   QVBoxLayout * mainBoxLayout_;
   QDockWidget * mainDockWiget_;
   QGridLayout * mainDockLayout_;
-
-  QLabel label1 {this};
 
   rviz_common::RenderPanel * render_panel_;
   rviz_common::Display * grid_;
