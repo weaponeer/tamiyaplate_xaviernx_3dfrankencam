@@ -73,7 +73,7 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 */
 
   central_widget_ = new QWidget();
-  //central_widget_->setFixedSize(QSize(600,600));
+  central_widget_->setFixedSize(QSize(1000,1000));
   
 
   auto rvWidget = new rvizWidget(qApp,ros_node_abs,central_widget_);

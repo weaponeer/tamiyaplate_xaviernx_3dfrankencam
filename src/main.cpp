@@ -13,7 +13,7 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
   
   auto round_window = std::make_shared<roundWindow>(&app);
-  round_window->show();
+  round_window->showFullScreen();
 
   while (rclcpp::ok()) {
     app.processEvents();
