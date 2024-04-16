@@ -9,6 +9,8 @@
 #include <QBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QString>
+#include <QStringList>
 
 
 #include <istream>
@@ -305,7 +307,6 @@ void roundWindow::handle_uros_state(QProcess::ProcessState state) {
 
 }
 
-
       
 
 void roundWindow::startCamera() {
@@ -314,11 +315,18 @@ void roundWindow::startCamera() {
 
     auto captureProcess = new QProcess();
 
+    auto arguments = (QStringList() << "launch" << "realsense2_camera" << "rs_launch.py" << 
+      "depth_module.profile:=640x480x90" << "pointcloud.enable:=true" << "serial_no:=_923322070838" << 
+      "unite_imu_method:=1" << "enable_accel:=true" <<  "enable_gyro:=true");
+
     connect(cameraRosProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_state(QProcess::ProcessState)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_stdout(void)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_stderr(void)));
     connect(cameraRosProcess_, SIGNAL(finished(void)), this, SLOT(process_finished(void)));
 
+    cameraRosProcess_->setProgram("ros2");
+    cameraRosProcess_->setArguments(arguments);
+    //cameraRosProcess_->start()
     this->cameraRosProcess_ = captureProcess;
   }
 
