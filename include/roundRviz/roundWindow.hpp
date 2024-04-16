@@ -58,8 +58,8 @@ private slots:
   void handle_stderr();
   void handle_stdout();
   void handle_state(QProcess::ProcessState state);
-  void process_finished();
-  void process_uros_finished();
+  void process_finished(QProcess::ExitStatus status);
+  void process_uros_finished(QProcess::ExitStatus status);
   void handle_uros_stderr();
   void handle_uros_stdout();
   void handle_uros_state(QProcess::ProcessState state);

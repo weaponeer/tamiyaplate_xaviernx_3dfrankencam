@@ -14,6 +14,7 @@
 
 
 #include <istream>
+#include <sys/wait.h>
 
 
 #include "rclcpp/clock.hpp"
@@ -219,6 +220,8 @@ QSize roundWindow::sizeHint() const {
 
 void roundWindow::message(std::string &string) {
 
+  std::cout << string << std::endl;
+
 }
 
 void roundWindow::handle_stderr() {
@@ -258,13 +261,13 @@ void roundWindow::handle_state(QProcess::ProcessState state) {
 }
 
 
-void roundWindow::process_finished() {
+void roundWindow::process_finished(QProcess::ExitStatus status) {
   auto foo = std::string("process finished");
   message(foo);
   //self.captureProcess = None
 }
   
-void roundWindow::process_uros_finished() {
+void roundWindow::process_uros_finished(QProcess::ExitStatus status) {
   auto foo = std::string("uROS process finished");
   message(foo);
   //self.microros_bridge = None
@@ -313,7 +316,7 @@ void roundWindow::startCamera() {
 
   if(!cameraRosProcess_) {
 
-    auto captureProcess = new QProcess();
+    cameraRosProcess_ = new QProcess();
 
     auto arguments = (QStringList() << "launch" << "realsense2_camera" << "rs_launch.py" << 
       "depth_module.profile:=640x480x90" << "pointcloud.enable:=true" << "serial_no:=_923322070838" << 
@@ -322,23 +325,46 @@ void roundWindow::startCamera() {
     connect(cameraRosProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_state(QProcess::ProcessState)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_stdout(void)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_stderr(void)));
-    connect(cameraRosProcess_, SIGNAL(finished(void)), this, SLOT(process_finished(void)));
+    connect(cameraRosProcess_, SIGNAL(finished(void,QProcess::ExitStatus)), this, SLOT(process_finished(void,QProcess::ExitStatus)));
 
     cameraRosProcess_->setProgram("ros2");
     cameraRosProcess_->setArguments(arguments);
-    //cameraRosProcess_->start()
-    this->cameraRosProcess_ = captureProcess;
+    cameraRosProcess_->start();
+    
   }
 
 
 }
   void roundWindow::stopCamera() {
 
+    if(cameraRosProcess_) {
+      
+      // I do not like this, but it's eqiv to the python...
+
+      QProcess get_childs;
+      QStringList get_childs_cmd;
+      get_childs_cmd << "--ppid" << QString::number(cameraRosProcess_->processId()) << "-o" << "pid" << "--no-heading";
+      get_childs.start("ps", get_childs_cmd);
+      get_childs.waitForFinished();
+      
+      QString childIds(get_childs.readAllStandardOutput());
+      std::cout << "wombat: " << childIds.toStdString() << std::endl; 
+      childIds.replace('\n', ' ');
+      std::cout << "wombat: " << childIds.toStdString() << std::endl; 
+      QProcess::execute("kill -9 " + childIds);
+
+      cameraRosProcess_->terminate();
+      cameraRosProcess_->waitForFinished();
+
+      cameraRosProcess_=nullptr;
+    }
+
   }
   void roundWindow::doShutdown() {
 
     //std::cout << "poothead" << std::endl;
     this->quitting_ = true;
+    stopCamera();
     rclcpp::shutdown();
 
 
