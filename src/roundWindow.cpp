@@ -328,7 +328,7 @@ void roundWindow::startDockerBridge() {
     urosBridgeDockerProcess_ = new QProcess();
 
     auto arguments = (QStringList() << "run" << "--rm" << "-v" << "/dev:/dev" << "-v" <<  "/dev/shm:/dev/shm" << "--privileged" <<
-            "--net=host" << "--name" << "poodleros" << "microros/micro-ros-agent:iron" << 
+            "--net=host" << "--name" << "camera_bridget" << "microros/micro-ros-agent:iron" << 
             "serial" << "--dev" <<  "/dev/ttyACM0" << "-v4" << "-b" << "6000000");
 
     connect(urosBridgeDockerProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_uros_state(QProcess::ProcessState)));
@@ -347,6 +347,13 @@ void roundWindow::startDockerBridge() {
 void roundWindow::stopDockerBridge() {
 
   if(urosBridgeDockerProcess_) {
+
+    auto stopProcess = new QProcess();
+    auto arguments = (QStringList() << "stop" << "camera_bridget");
+    stopProcess->setProgram("docker");
+    stopProcess->setArguments(arguments);
+    stopProcess->start();
+    stopProcess->waitForFinished();
     
     urosBridgeDockerProcess_->terminate();
     urosBridgeDockerProcess_->waitForFinished();
