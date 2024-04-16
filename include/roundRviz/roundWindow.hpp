@@ -55,6 +55,8 @@ private slots:
   void startCamera();
   void stopCamera();
   void doShutdown();
+  void startDockerBridge();
+  void stopDockerBridge();
   void handle_stderr();
   void handle_stdout();
   void handle_state(QProcess::ProcessState state);

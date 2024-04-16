@@ -150,6 +150,8 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   this->setCentralWidget(central_widget_);
   //this->setCentralWidget(startButton);
 
+  startDockerBridge();
+
 }
 
 
@@ -335,36 +337,74 @@ void roundWindow::startCamera() {
 
 
 }
-  void roundWindow::stopCamera() {
 
-    if(cameraRosProcess_) {
-      
-      // I do not like this, but it's eqiv to the python...
+void roundWindow::startDockerBridge() {
 
-      QProcess get_childs;
-      QStringList get_childs_cmd;
-      get_childs_cmd << "--ppid" << QString::number(cameraRosProcess_->processId()) << "-o" << "pid" << "--no-heading";
-      get_childs.start("ps", get_childs_cmd);
-      get_childs.waitForFinished();
-      
-      QString childIds(get_childs.readAllStandardOutput());
-      std::cout << "wombat: " << childIds.toStdString() << std::endl; 
-      childIds.replace('\n', ' ');
-      std::cout << "wombat: " << childIds.toStdString() << std::endl; 
-      QProcess::execute("kill -9 " + childIds);
+  if(!urosBridgeDockerProcess_) {
 
-      cameraRosProcess_->terminate();
-      cameraRosProcess_->waitForFinished();
+    urosBridgeDockerProcess_ = new QProcess();
 
-      cameraRosProcess_=nullptr;
-    }
+    auto arguments = (QStringList() << "run" << "--rm" << "-v" << "/dev:/dev" << "-v" <<  "/dev/shm:/dev/shm" << "--privileged" <<
+            "--net=host" << "--name" << "poodleros" << "microros/micro-ros-agent:iron" << 
+            "serial" << "--dev" <<  "/dev/ttyACM0" << "-v4" << "-b" << "6000000");
+
+    connect(urosBridgeDockerProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_uros_state(QProcess::ProcessState)));
+    connect(urosBridgeDockerProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_uros_stdout(void)));
+    connect(urosBridgeDockerProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_uros_stderr(void)));
+    connect(urosBridgeDockerProcess_, SIGNAL(finished(void,QProcess::ExitStatus)), this, SLOT(process_uros_finished(void,QProcess::ExitStatus)));
+
+    urosBridgeDockerProcess_->setProgram("docker");
+    urosBridgeDockerProcess_->setArguments(arguments);
+    urosBridgeDockerProcess_->start();
+    
+  }
+
+}
+
+void roundWindow::stopDockerBridge() {
+
+  if(urosBridgeDockerProcess_) {
+    
+    urosBridgeDockerProcess_->terminate();
+    urosBridgeDockerProcess_->waitForFinished();
+    urosBridgeDockerProcess_=nullptr;
+  }
+
+  
+}
+
+
+void roundWindow::stopCamera() {
+
+  if(cameraRosProcess_) {
+    
+    // I do not like this, but it's eqiv to the python...
+    // explore further
+
+    QProcess get_childs;
+    QStringList get_childs_cmd;
+    get_childs_cmd << "--ppid" << QString::number(cameraRosProcess_->processId()) << "-o" << "pid" << "--no-heading";
+    get_childs.start("ps", get_childs_cmd);
+    get_childs.waitForFinished();
+    
+    QString childIds(get_childs.readAllStandardOutput());
+    //std::cout << "wombat pid: " << childIds.toStdString() << std::endl; 
+    childIds.replace('\n', ' ');
+    //std::cout << "wombat pid sans cr: " << childIds.toStdString() << std::endl; 
+    QProcess::execute("kill -9 " + childIds);
+
+    cameraRosProcess_->terminate();
+    cameraRosProcess_->waitForFinished();
+    cameraRosProcess_=nullptr;
+  }
 
   }
   void roundWindow::doShutdown() {
 
-    //std::cout << "poothead" << std::endl;
     this->quitting_ = true;
     stopCamera();
+    stopDockerBridge();
+    
     rclcpp::shutdown();
 
 
@@ -374,5 +414,7 @@ void roundWindow::startCamera() {
 void roundWindow::closeEvent(QCloseEvent * event)
 {
   QWidget::closeEvent(event);
+  stopCamera();
+  stopDockerBridge();
   rclcpp::shutdown();
 }
