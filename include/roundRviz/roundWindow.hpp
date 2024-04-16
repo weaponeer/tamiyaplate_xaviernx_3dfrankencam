@@ -24,6 +24,7 @@
 
 
 class QPushButton;
+class QString;
 
 namespace rviz_common
 {
@@ -41,6 +42,8 @@ public:
   QWidget * getParentWindow() override;
   rviz_common::PanelDockWidget * addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating) override;
 
+  void message(std::string &string);
+
   //QWidget * getParentWindow() override;
 
 protected:
@@ -49,6 +52,17 @@ protected:
 
 private slots:
   void closeEvent(QCloseEvent *event);
+  void startCamera();
+  void stopCamera();
+  void doShutdown();
+  void handle_stderr();
+  void handle_stdout();
+  void handle_state(QProcess::ProcessState state);
+  void process_finished();
+  void process_uros_finished();
+  void handle_uros_stderr();
+  void handle_uros_stdout();
+  void handle_uros_state(QProcess::ProcessState state);
 
 
 private:
@@ -66,7 +80,9 @@ private:
 
   QWidget * central_widget_;
   QVBoxLayout * main_layout_;
-  QProcess * imuDockerProcess_;
+  QProcess * urosBridgeDockerProcess_;
+  QProcess * cameraRosProcess_;
+  QProcess * imuRosProcess_;
   QVBoxLayout * mainBoxLayout_;
   QDockWidget * mainDockWiget_;
   QGridLayout * mainDockLayout_;
@@ -75,6 +91,8 @@ private:
   rviz_common::Display * grid_;
   rviz_common::Display * camera_;
   rviz_common::VisualizationManager * manager_;
+
+  bool quitting_;
 
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;
 

@@ -11,6 +11,9 @@
 #include <QPushButton>
 
 
+#include <istream>
+
+
 #include "rclcpp/clock.hpp"
 #include "rviz_common/render_panel.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
@@ -21,8 +24,13 @@
 
 
 roundWindow::roundWindow(QApplication *app,QWidget * parent)
-: app_(app),QMainWindow(parent)
+: app_(app),quitting_(false),QMainWindow(parent)
 {
+
+  urosBridgeDockerProcess_ = 0;
+  cameraRosProcess_ = 0;
+  imuRosProcess_ = 0;
+
   // prep from round display
   this->setWindowFlags(Qt::FramelessWindowHint);
   this->setAttribute(Qt::WA_TranslucentBackground);
@@ -98,6 +106,19 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   startButton_->setStyleSheet("background-color:green;");
 	stopButton_->setStyleSheet("background-color:grey;");
 	shutdownButton_->setStyleSheet("background-color:pink;");
+
+  QObject::connect(startButton_, &QPushButton::clicked, [=]() {
+        this->startCamera();
+   });
+
+  QObject::connect(stopButton_, &QPushButton::clicked, [=]() {
+        this->stopCamera();
+   });
+
+  QObject::connect(shutdownButton_, &QPushButton::clicked, [=]() {
+        this->doShutdown();
+        std::cout << "blarg" << std::endl;
+   });
 
   insetRect = workRect.marginsRemoved(QMargins(300,300,300,400));
   
@@ -193,6 +214,127 @@ QSize roundWindow::sizeHint() const {
   return(QSize( theRect_.width(),theRect_.height() ));
 
 }
+
+void roundWindow::message(std::string &string) {
+
+}
+
+void roundWindow::handle_stderr() {
+  auto data = cameraRosProcess_->readAllStandardError();
+  auto foo = data.toStdString();
+  message(foo);
+
+}
+
+void roundWindow::handle_stdout() {
+
+  auto data = cameraRosProcess_->readAllStandardOutput();
+  auto foo = data.toStdString();
+  message(foo);
+}
+
+void roundWindow::handle_state(QProcess::ProcessState state) {
+    
+  if(state == QProcess::NotRunning) {
+
+    startButton_->setStyleSheet("background-color:green;");
+    stopButton_->setStyleSheet("background-color:gray;");
+    shutdownButton_->setStyleSheet("background-color:pink;");
+    auto foo = std::string("color changed");
+    message(foo);
+
+  } else if (state == QProcess::Running)
+  {
+    startButton_->setStyleSheet("background-color:yellow;");
+    stopButton_->setStyleSheet("background-color:red;");
+    shutdownButton_->setStyleSheet("background-color:pink;");
+    auto foo = std::string("color changed");
+    message(foo);
+
+  }
+
+}
+
+
+void roundWindow::process_finished() {
+  auto foo = std::string("process finished");
+  message(foo);
+  //self.captureProcess = None
+}
+  
+void roundWindow::process_uros_finished() {
+  auto foo = std::string("uROS process finished");
+  message(foo);
+  //self.microros_bridge = None
+
+}
+
+void roundWindow::handle_uros_stderr() {
+  auto data = urosBridgeDockerProcess_->readAllStandardError();
+  auto foo = data.toStdString();
+  message(foo);
+
+}
+
+void roundWindow::handle_uros_stdout() {
+
+  auto data = urosBridgeDockerProcess_->readAllStandardOutput();
+  auto foo = data.toStdString();
+  message(foo);
+}
+
+void roundWindow::handle_uros_state(QProcess::ProcessState state) {
+    
+  if(state == QProcess::NotRunning) {
+
+    startButton_->setStyleSheet("background-color:green;");
+    stopButton_->setStyleSheet("background-color:gray;");
+    shutdownButton_->setStyleSheet("background-color:pink;");
+    auto foo = std::string("color changed");
+    message(foo);
+
+  } else if (state == QProcess::Running)
+  {
+    startButton_->setStyleSheet("background-color:yellow;");
+    stopButton_->setStyleSheet("background-color:red;");
+    shutdownButton_->setStyleSheet("background-color:pink;");
+    auto foo = std::string("color changed");
+    message(foo);
+
+  }
+
+}
+
+
+      
+
+void roundWindow::startCamera() {
+
+  if(!cameraRosProcess_) {
+
+    auto captureProcess = new QProcess();
+
+    connect(cameraRosProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_state(QProcess::ProcessState)));
+    connect(cameraRosProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_stdout(void)));
+    connect(cameraRosProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_stderr(void)));
+    connect(cameraRosProcess_, SIGNAL(finished(void)), this, SLOT(process_finished(void)));
+
+    this->cameraRosProcess_ = captureProcess;
+  }
+
+
+}
+  void roundWindow::stopCamera() {
+
+  }
+  void roundWindow::doShutdown() {
+
+    //std::cout << "poothead" << std::endl;
+    this->quitting_ = true;
+    rclcpp::shutdown();
+
+
+  }
 
 
 void roundWindow::closeEvent(QCloseEvent * event)

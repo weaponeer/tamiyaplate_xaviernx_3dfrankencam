@@ -19,5 +19,7 @@ int main(int argc, char ** argv)
     app.processEvents();
   }
 
+  app.quit();
+
   return 0;
 }
