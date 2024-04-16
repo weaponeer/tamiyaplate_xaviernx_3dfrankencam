@@ -292,23 +292,6 @@ void roundWindow::handle_uros_stdout() {
 
 void roundWindow::handle_uros_state(QProcess::ProcessState state) {
     
-  if(state == QProcess::NotRunning) {
-
-    startButton_->setStyleSheet("background-color:green;");
-    stopButton_->setStyleSheet("background-color:gray;");
-    shutdownButton_->setStyleSheet("background-color:pink;");
-    auto foo = std::string("color changed");
-    message(foo);
-
-  } else if (state == QProcess::Running)
-  {
-    startButton_->setStyleSheet("background-color:yellow;");
-    stopButton_->setStyleSheet("background-color:red;");
-    shutdownButton_->setStyleSheet("background-color:pink;");
-    auto foo = std::string("color changed");
-    message(foo);
-
-  }
 
 }
 
