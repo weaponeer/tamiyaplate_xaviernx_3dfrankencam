@@ -104,10 +104,12 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   QHBoxLayout * buttonLayout = new QHBoxLayout();
   startButton_ = new QPushButton("Start");
   stopButton_ = new QPushButton("Stop");
+  recordButton_ = new QPushButton("Record");
   shutdownButton_ = new QPushButton("Shutdown");
 
   startButton_->setStyleSheet("background-color:green;");
 	stopButton_->setStyleSheet("background-color:grey;");
+  recordButton_->setStyleSheet("background-color:grey;");
 	shutdownButton_->setStyleSheet("background-color:pink;");
 
   QObject::connect(startButton_, &QPushButton::clicked, [=]() {
@@ -120,19 +122,26 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 
   QObject::connect(shutdownButton_, &QPushButton::clicked, [=]() {
         this->doShutdown();
-        std::cout << "blarg" << std::endl;
+        std::cout << "blarg quitting" << std::endl;
+   });
+
+   QObject::connect(shutdownButton_, &QPushButton::clicked, [=]() {
+        this->toggleRecord();
+        std::cout << "blargcord" << std::endl;
    });
 
   insetRect = workRect.marginsRemoved(QMargins(300,300,300,400));
   
   central_widget_->setGeometry(insetRect);
 
-  startButton_->setFixedSize(QSize(150,100));
-  stopButton_->setFixedSize(QSize(150,100));
-  shutdownButton_->setFixedSize(QSize(150,100));
+  startButton_->setFixedSize(QSize(100,100));
+  stopButton_->setFixedSize(QSize(100,100));
+  recordButton_->setFixedSize(QSize(150,100));
+  shutdownButton_->setFixedSize(QSize(100,100));
 
   buttonLayout->addWidget(startButton_);
   buttonLayout->addWidget(stopButton_);
+  buttonLayout->addWidget(recordButton_);
   buttonLayout->addWidget(shutdownButton_);
   //vBoxLayout->addWidget();
   buttonLayout->setAlignment(Qt::AlignHCenter);
@@ -223,6 +232,11 @@ QSize roundWindow::sizeHint() const {
 void roundWindow::message(std::string &string) {
 
   std::cout << string << std::endl;
+
+}
+
+void roundWindow::toggleRecord() {
+
 
 }
 

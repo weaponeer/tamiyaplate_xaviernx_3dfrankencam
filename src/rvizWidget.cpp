@@ -103,6 +103,10 @@ void rvizWidget::setupDisplays() {
   camera2_->subProp("Max Value")->setValue(1);
   camera2_->subProp("Median window")->setValue(5);
 
+  Imu_ = manager_->createDisplay("rviz_imu_plugin/Imu", "Imu", true);
+  assert(Imu_ != NULL);
+  Imu_->subProp("Topic")->setValue("/imu/data");
+  Imu_->subProp("Color")->setValue(QColor(Qt::yellow));
   
 
 }

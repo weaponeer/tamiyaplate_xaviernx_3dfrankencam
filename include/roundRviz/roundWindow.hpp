@@ -54,6 +54,7 @@ private slots:
   void closeEvent(QCloseEvent *event);
   void startCamera();
   void stopCamera();
+  void toggleRecord();
   void doShutdown();
   void startDockerBridge();
   void stopDockerBridge();
@@ -77,6 +78,7 @@ private:
 
   QPushButton * startButton_;
   QPushButton * stopButton_;
+  QPushButton * recordButton_;
   QPushButton * shutdownButton_; 
 
 
@@ -84,6 +86,7 @@ private:
   QVBoxLayout * main_layout_;
   QProcess * urosBridgeDockerProcess_;
   QProcess * cameraRosProcess_;
+  QProcess * recordRosProcess_;
   QProcess * imuRosProcess_;
   QVBoxLayout * mainBoxLayout_;
   QDockWidget * mainDockWiget_;

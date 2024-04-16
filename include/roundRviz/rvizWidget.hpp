@@ -65,6 +65,7 @@ private:
   rviz_common::Display * grid_;
   rviz_common::Display * camera_;
   rviz_common::Display * camera2_;
+  rviz_common::Display * Imu_;
   rviz_common::VisualizationManager * manager_;
 
   rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr rviz_ros_node_;
