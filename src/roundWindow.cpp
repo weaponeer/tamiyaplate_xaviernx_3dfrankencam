@@ -324,7 +324,7 @@ void roundWindow::startCamera() {
     connect(cameraRosProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_state(QProcess::ProcessState)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_stdout(void)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_stderr(void)));
-    connect(cameraRosProcess_, SIGNAL(finished(void,QProcess::ExitStatus)), this, SLOT(process_finished(void,QProcess::ExitStatus)));
+    connect(cameraRosProcess_, SIGNAL(finished(QProcess::ExitStatus)), this, SLOT(process_finished(QProcess::ExitStatus)));
 
     cameraRosProcess_->setProgram("ros2");
     cameraRosProcess_->setArguments(arguments);
@@ -348,7 +348,7 @@ void roundWindow::startDockerBridge() {
     connect(urosBridgeDockerProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_uros_state(QProcess::ProcessState)));
     connect(urosBridgeDockerProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_uros_stdout(void)));
     connect(urosBridgeDockerProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_uros_stderr(void)));
-    connect(urosBridgeDockerProcess_, SIGNAL(finished(void,QProcess::ExitStatus)), this, SLOT(process_uros_finished(void,QProcess::ExitStatus)));
+    connect(urosBridgeDockerProcess_, SIGNAL(finished(QProcess::ExitStatus)), this, SLOT(process_uros_finished(QProcess::ExitStatus)));
 
     urosBridgeDockerProcess_->setProgram("docker");
     urosBridgeDockerProcess_->setArguments(arguments);
