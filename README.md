@@ -64,7 +64,7 @@ Both apps use QProcess to launch ros2 flows for the cameras, docker process for 
 
 - C++ app in [src ](./src 'src') grew from this -- https://github.com/mjeronimo/rviz_embed_test
 - inside the ros2 environment (souce setuo.sh...) -- colcon build, etc.
-- The QWindows of both apps try to accomidate the round Waveshare display, and will look odd but work on other displays.  One can just remove the overload of paintEvent, 
+- The QWindows of both apps try to accommodate the round Waveshare display, and will look odd but work on other displays.  One can just remove the overload of paintEvent, 
 but remember QT always suprises... 
 
 
