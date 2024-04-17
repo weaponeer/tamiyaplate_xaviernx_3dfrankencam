@@ -107,7 +107,7 @@ void rvizWidget::setupDisplays() {
   Imu_ = manager_->createDisplay("rviz_imu_plugin/Imu", "Imu", true);
   assert(Imu_ != NULL);
   Imu_->subProp("Topic")->setValue("/imu/data");
-  Imu_->subProp("Color")->setValue(QColor(Qt::yellow));
+  //Imu_->subProp("Color")->setValue(QColor(Qt::yellow));
 
   auto rdg = manager_->getRootDisplayGroup();
   auto globalOptions = rdg->subProp("Global Options");

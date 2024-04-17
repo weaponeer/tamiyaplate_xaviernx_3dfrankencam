@@ -11,6 +11,7 @@
 #include <QPushButton>
 #include <QString>
 #include <QStringList>
+#include <QDateTime>
 
 
 #include <istream>
@@ -33,6 +34,7 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
   urosBridgeDockerProcess_ = 0;
   cameraRosProcess_ = 0;
   imuRosProcess_ = 0;
+  recordRosProcess_ = 0;
 
   // prep from round display
   this->setWindowFlags(Qt::FramelessWindowHint);
@@ -122,12 +124,10 @@ roundWindow::roundWindow(QApplication *app,QWidget * parent)
 
   QObject::connect(shutdownButton_, &QPushButton::clicked, [=]() {
         this->doShutdown();
-        std::cout << "blarg quitting" << std::endl;
    });
 
-   QObject::connect(shutdownButton_, &QPushButton::clicked, [=]() {
+   QObject::connect(recordButton_, &QPushButton::clicked, [=]() {
         this->toggleRecord();
-        std::cout << "blargcord" << std::endl;
    });
 
   insetRect = workRect.marginsRemoved(QMargins(300,300,300,400));
@@ -237,6 +237,33 @@ void roundWindow::message(std::string &string) {
 
 void roundWindow::toggleRecord() {
 
+  if(recordRosProcess_) {
+
+    recordRosProcess_->terminate();
+    recordRosProcess_->waitForFinished();
+    recordRosProcess_ = nullptr;
+
+    std::cout << "Stopped rec" << std::endl;
+
+
+  } else {
+
+    recordRosProcess_ = new QProcess();
+
+    QDateTime now = QDateTime::currentDateTime();
+    QString timestamp = now.toString(QLatin1String("yyyyMMdd-hhmm"));
+    QString filename = QString::fromLatin1("./ros_recording_%1").arg(timestamp);
+
+    auto arguments = (QStringList() << "bag" << "record" << "--all");
+
+    recordRosProcess_->setProgram("ros2");
+    recordRosProcess_->setArguments(arguments);
+    recordRosProcess_->start();
+
+    std::cout << "Started rec" << std::endl;
+
+  }
+
 
 }
 
@@ -277,13 +304,13 @@ void roundWindow::handle_state(QProcess::ProcessState state) {
 }
 
 
-void roundWindow::process_finished(QProcess::ExitStatus status) {
+void roundWindow::process_finished(int val,QProcess::ExitStatus status) {
   auto foo = std::string("process finished");
   message(foo);
   //self.captureProcess = None
 }
   
-void roundWindow::process_uros_finished(QProcess::ExitStatus status) {
+void roundWindow::process_uros_finished(int val,QProcess::ExitStatus status) {
   auto foo = std::string("uROS process finished");
   message(foo);
   //self.microros_bridge = None
@@ -324,7 +351,7 @@ void roundWindow::startCamera() {
     connect(cameraRosProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_state(QProcess::ProcessState)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_stdout(void)));
     connect(cameraRosProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_stderr(void)));
-    connect(cameraRosProcess_, SIGNAL(finished(QProcess::ExitStatus)), this, SLOT(process_finished(QProcess::ExitStatus)));
+    connect(cameraRosProcess_, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(process_finished(int,QProcess::ExitStatus)));
 
     cameraRosProcess_->setProgram("ros2");
     cameraRosProcess_->setArguments(arguments);
@@ -348,7 +375,7 @@ void roundWindow::startDockerBridge() {
     connect(urosBridgeDockerProcess_, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(handle_uros_state(QProcess::ProcessState)));
     connect(urosBridgeDockerProcess_, SIGNAL(readyReadStandardOutput(void)), this, SLOT(handle_uros_stdout(void)));
     connect(urosBridgeDockerProcess_, SIGNAL(readyReadStandardError(void)), this, SLOT(handle_uros_stderr(void)));
-    connect(urosBridgeDockerProcess_, SIGNAL(finished(QProcess::ExitStatus)), this, SLOT(process_uros_finished(QProcess::ExitStatus)));
+    connect(urosBridgeDockerProcess_, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(process_uros_finished(int,QProcess::ExitStatus)));
 
     urosBridgeDockerProcess_->setProgram("docker");
     urosBridgeDockerProcess_->setArguments(arguments);
