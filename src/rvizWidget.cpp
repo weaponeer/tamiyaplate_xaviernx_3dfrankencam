@@ -11,6 +11,7 @@
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 #include "rviz_common/visualization_manager.hpp"
 #include "rviz_common/display_context.hpp"
+#include "rviz_common/display_group.hpp"
 
 #include "rviz_rendering/render_window.hpp"
 #include "rviz_common/properties/property_tree_model.hpp"
@@ -107,7 +108,19 @@ void rvizWidget::setupDisplays() {
   assert(Imu_ != NULL);
   Imu_->subProp("Topic")->setValue("/imu/data");
   Imu_->subProp("Color")->setValue(QColor(Qt::yellow));
-  
+
+  auto rdg = manager_->getRootDisplayGroup();
+  auto globalOptions = rdg->subProp("Global Options");
+  auto globalFrame = globalOptions->subProp("Fixed Frame");
+
+  globalFrame->setValue("odom");
+
+  /*debug useful
+  auto hamlang = globalFrame->getDescription();
+  std::cout << hamlang.toStdString() << std::endl;
+  auto theval = globalFrame->getValue();
+  std::cout << theval.toString().toStdString() << std::endl;
+  */
 
 }
 
