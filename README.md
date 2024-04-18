@@ -22,7 +22,7 @@ This is based around a [nVidia xavier nx (16GB) module](https://www.nvidia.com/e
 
 - Waveshare round display standoff mounted to fiber backplate, for my monitor mount holes were an odd 3.5mm size.
 - Faceplate/camera grid plate is cut from Tamiya plate.  Carrier board "adapter" also built from Tamiya "rails". [The famous EPO (Houston) ](https://epohouston.com/ 'EPO') carries Tamiya
-- Ribbom HDMI cable, various short usb-c cables and a compact usb-c [hub]( https://www.amazon.com/gp/product/B0BP81NSNZ '5port hub')
+- Ribbon HDMI cable, various short usb-c cables and a compact usb-c [hub]( https://www.amazon.com/gp/product/B0BP81NSNZ '5port hub')
 - The carrier module and PD for the cameras via the hub is external and long usb-c PD cables rounted through the handle.
 - Various usb-c angle adapters are used, and one must be careful to check that connection speed is not degraded.  Always purchase good adapters. 
 

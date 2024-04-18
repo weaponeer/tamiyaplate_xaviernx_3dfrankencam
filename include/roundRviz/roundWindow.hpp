@@ -55,6 +55,7 @@ private slots:
   void startCamera();
   void stopCamera();
   void toggleRecord();
+  void stopRecord();
   void doShutdown();
   void startDockerBridge();
   void stopDockerBridge();

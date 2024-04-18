@@ -235,6 +235,12 @@ void roundWindow::message(std::string &string) {
 
 }
 
+void roundWindow::stopRecord() {
+  if(recordRosProcess_) {
+    toggleRecord();
+  }
+}
+
 void roundWindow::toggleRecord() {
 
   if(recordRosProcess_) {
@@ -242,6 +248,12 @@ void roundWindow::toggleRecord() {
     recordRosProcess_->terminate();
     recordRosProcess_->waitForFinished();
     recordRosProcess_ = nullptr;
+
+    if(cameraRosProcess_) {
+      recordButton_->setStyleSheet("background-color:blue;");
+    } else {
+      recordButton_->setStyleSheet("background-color:grey;");      
+    }
 
     std::cout << "Stopped rec" << std::endl;
 
@@ -259,7 +271,7 @@ void roundWindow::toggleRecord() {
     recordRosProcess_->setProgram("ros2");
     recordRosProcess_->setArguments(arguments);
     recordRosProcess_->start();
-
+    recordButton_->setStyleSheet("background-color:orange;");  
     std::cout << "Started rec" << std::endl;
 
   }
@@ -288,6 +300,7 @@ void roundWindow::handle_state(QProcess::ProcessState state) {
     startButton_->setStyleSheet("background-color:green;");
     stopButton_->setStyleSheet("background-color:gray;");
     shutdownButton_->setStyleSheet("background-color:pink;");
+    recordButton_->setStyleSheet("background-color:grey;");
     auto foo = std::string("color changed");
     message(foo);
 
@@ -296,6 +309,7 @@ void roundWindow::handle_state(QProcess::ProcessState state) {
     startButton_->setStyleSheet("background-color:yellow;");
     stopButton_->setStyleSheet("background-color:red;");
     shutdownButton_->setStyleSheet("background-color:pink;");
+    recordButton_->setStyleSheet("background-color:blue;");
     auto foo = std::string("color changed");
     message(foo);
 
@@ -406,6 +420,8 @@ void roundWindow::stopDockerBridge() {
 
 
 void roundWindow::stopCamera() {
+
+  stopRecord();
 
   if(cameraRosProcess_) {
     
