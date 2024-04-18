@@ -1,4 +1,6 @@
 # Sort-of portable dual realsense camera pointcloud vacuum/testbed.
+ <img src="./resources/IMG_4609.png" width="20%"></img>
+ <img src="./resources/running_cam.png" width="20%"></img> 
 
 ## Motivation
 
@@ -44,7 +46,9 @@ This is based around a [nVidia xavier nx (16GB) module](https://www.nvidia.com/e
 
 ## Platform setp
 
-- A203 with nvme 2TB, wifi optional.
+This is mostly a platform project, as that is where most of the time has been spent.  
+
+- A203 with nvme 2TB, wifi optional. Xavier NX 16GB module.
 - flashed with nVidia L4T linux -- # R35 (release), REVISION: 4.1
 - development tools for below
 - librealsense (and kernel patches)
@@ -66,6 +70,14 @@ Both apps use QProcess to launch ros2 flows for the cameras, docker process for 
 - inside the ros2 environment (souce setuo.sh...) -- colcon build, etc.
 - The QWindows of both apps try to accommodate the round Waveshare display, and will look odd but work on other displays.  One can just remove the overload of paintEvent, 
 but remember QT always suprises... 
+
+## todo
+
+- TF setup and URDF for camera -- shortly.
+- Better recording logic, working on this now.
+- add camera selection, perhaps switch based on min/max depth
+- better undertand rviz2 display issues, not updating, etc.
+- valgrind and tidy up. 
 
 
 
